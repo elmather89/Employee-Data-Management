@@ -9,20 +9,25 @@ var config = {
  
  firebase.initializeApp(config);
  
- var db = firebase.database();
- var messageRef = db.ref("/message");
- 
- $("#send-button").click(function () {
-    var message = $("#message-text").val();
-    var newMessageRef = messageRef.push();
-    newMessageRef.set({
-        text: message
+ var database = firebase.database();
+ var name = "";
+ var startDate = "";
+ var monthlyRate = "";
+
+$("#run-search").on("click", function(event) {
+    event.preventDefault();
+
+    name = $("#employee-name").val().trim();
+    startDate = $("#start-year").val().trim();
+    monthlyRate = $("#monthly-rate").val().trim();
+
+    database.ref().push( {
+        name: name,
+        startDate: startDate,
+        monthlyRate: monthlyRate
     });
+});
+
+ database.ref().on("value", function(snapshot) {
+     if ()
  })
- 
- messageRef.on('child_added', function (data) {
-    // addCommentElement(postElement, data.key, data.val().text, data.val().author);
-    var message = data.val().text;
-    var messageElement = $("<p>").text(message);
-    $("#message-container").append(messageElement);
- });
